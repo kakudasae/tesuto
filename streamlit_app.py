@@ -34,4 +34,66 @@ zodiac_info = {
     },
     'おとめざ': {
         'lucky_item': 'メモ帳',
-        'lucky_color': 
+        'lucky_color': '青',
+        'good_match': ['おうしざ', 'かにざ'],
+        'bad_match': ['ふたござ', 'ししざ'],
+    },
+    'てんびんざ': {
+        'lucky_item': '美しい花瓶',
+        'lucky_color': 'ピンク',
+        'good_match': ['ふたござ', 'みずがめざ'],
+        'bad_match': ['かにざ', 'さそりざ'],
+    },
+    'さそりざ': {
+        'lucky_item': '黒い財布',
+        'lucky_color': '黒',
+        'good_match': ['おひつじざ', 'おとめざ'],
+        'bad_match': ['ししざ', 'てんびんざ'],
+    },
+    'いてざ': {
+        'lucky_item': '遠足用のバッグ',
+        'lucky_color': '青',
+        'good_match': ['おひつじざ', 'ししざ'],
+        'bad_match': ['おうしざ', 'うおざ'],
+    },
+    'やぎざ': {
+        'lucky_item': 'シルバーの時計',
+        'lucky_color': 'グレー',
+        'good_match': ['おうしざ', 'おとめざ'],
+        'bad_match': ['おひつじざ', 'ふたござ'],
+    },
+    'みずがめざ': {
+        'lucky_item': '金のペン',
+        'lucky_color': '水色',
+        'good_match': ['ふたござ', 'てんびんざ'],
+        'bad_match': ['おうしざ', 'さそりざ'],
+    },
+    'うおざ': {
+        'lucky_item': '柔らかい毛布',
+        'lucky_color': 'ピンク',
+        'good_match': ['かにざ', 'おとめざ'],
+        'bad_match': ['ふたござ', 'いてざ'],
+    },
+}
+
+# Streamlitアプリのタイトル
+st.title('星座占いアプリ')
+
+# ユーザーに星座を選んでもらう
+zodiac = st.selectbox('あなたの星座を選んでください（ひらがなで入力）', [
+    'おひつじざ', 'おうしざ', 'ふたござ', 'かにざ', 'ししざ', 'おとめざ', 'てんびんざ', 'さそりざ', 'いてざ', 'やぎざ', 'みずがめざ', 'うおざ'])
+
+# 選んだ星座の運勢情報を表示
+info = zodiac_info[zodiac]
+st.header(f'{zodiac} の運勢')
+
+# ラッキーアイテムとラッキーカラー
+st.subheader('ラッキーアイテムとラッキーカラー')
+st.write(f'ラッキーアイテム: {info["lucky_item"]}')
+st.write(f'ラッキーカラー: {info["lucky_color"]}')
+
+# 相性のいい星座と相性の悪い星座
+st.subheader('相性のいい星座と相性の悪い星座')
+st.write(f'相性のいい星座: {", ".join(info["good_match"])}')
+st.write(f'相性の悪い星座: {", ".join(info["bad_match"])}')
+
