@@ -3,5 +3,5 @@ import random
 st.title("おみくじアプリ")
 if st.button("おみくじを引く"):
     resuits=["大吉","中吉","小吉","吉","凶","大凶"]
-    result=random.choice(results)
+    result=random.choice(resuits)
     st.write(f"結果:{result}")
