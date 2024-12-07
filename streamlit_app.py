@@ -1,67 +1,62 @@
 import streamlit as st
 from datetime import datetime
 
-# 星座の期間と対応する星座名を辞書で定義
-zodiac_dates = [
-    ((1, 20), (2, 18), "みずがめ座"),
-    ((2, 19), (3, 20), "うお座"),
-    ((3, 21), (4, 19), "おひつじ座"),
-    ((4, 20), (5, 20), "おうし座"),
-    ((5, 21), (6, 20), "ふたご座"),
-    ((6, 21), (7, 22), "かに座"),
-    ((7, 23), (8, 22), "しし座"),
-    ((8, 23), (9, 22), "おとめ座"),
-    ((9, 23), (10, 22), "てんびん座"),
-    ((10, 23), (11, 21), "さそり座"),
-    ((11, 22), (12, 21), "いて座"),
-    ((12, 22), (1, 19), "やぎ座"),
-]
-
-# ラッキーアイテム、ラッキーカラー、相性の良い星座、相性の悪い星座を辞書で定義
-fortune_data = {
-    "みずがめ座": {"lucky_item": "時計", "lucky_color": "青", "good_match": "ふたご座", "bad_match": "おうし座"},
-    "うお座": {"lucky_item": "絵の具", "lucky_color": "緑", "good_match": "かに座", "bad_match": "おひつじ座"},
-    "おひつじ座": {"lucky_item": "財布", "lucky_color": "赤", "good_match": "しし座", "bad_match": "うお座"},
-    "おうし座": {"lucky_item": "ブレスレット", "lucky_color": "ピンク", "good_match": "おとめ座", "bad_match": "みずがめ座"},
-    "ふたご座": {"lucky_item": "ノート", "lucky_color": "黄色", "good_match": "みずがめ座", "bad_match": "おひつじ座"},
-    "かに座": {"lucky_item": "写真立て", "lucky_color": "白", "good_match": "うお座", "bad_match": "いて座"},
-    "しし座": {"lucky_item": "アクセサリー", "lucky_color": "金", "good_match": "おひつじ座", "bad_match": "おとめ座"},
-    "おとめ座": {"lucky_item": "ペン", "lucky_color": "緑", "good_match": "おうし座", "bad_match": "しし座"},
-    "てんびん座": {"lucky_item": "鏡", "lucky_color": "ピンク", "good_match": "さそり座", "bad_match": "おとめ座"},
-    "さそり座": {"lucky_item": "鍵", "lucky_color": "黒", "good_match": "てんびん座", "bad_match": "ふたご座"},
-    "いて座": {"lucky_item": "地図", "lucky_color": "紫", "good_match": "おひつじ座", "bad_match": "かに座"},
-    "やぎ座": {"lucky_item": "ペンケース", "lucky_color": "茶", "good_match": "おうし座", "bad_match": "ふたご座"},
-}
-
-# 星座を計算する関数
-def get_zodiac(birthdate):
-    month = birthdate.month
-    day = birthdate.day
-    for start, end, zodiac in zodiac_dates:
-        start_date = datetime(birthdate.year, start[0], start[1])
-        end_date = datetime(birthdate.year, end[0], end[1])
-        if start_date <= birthdate <= end_date or (
-            start_date.month == 12 and end_date.month == 1 and birthdate.month == 1):
-            return zodiac
-    return None
-
-# Streamlitでアプリを作成
-st.title("星座占いアプリ")
-
-# 生年月日を入力してもらう
-birthdate_input = st.date_input("生年月日を入力してください", min_value=datetime(1900, 1, 1), max_value=datetime(2024, 12, 31))
-
-# ユーザーの生年月日を基に星座を判定
-birthdate = datetime.strptime(str(birthdate_input), "%Y-%m-%d")
-zodiac = get_zodiac(birthdate)
-
-if zodiac:
-    st.write(f"あなたの星座は「{zodiac}」です。")
-
-    # 運勢情報を表示
-    st.write(f"ラッキーアイテム: {fortune_data[zodiac]['lucky_item']}")
-    st.write(f"ラッキーカラー: {fortune_data[zodiac]['lucky_color']}")
-    st.write(f"相性のいい星座: {fortune_data[zodiac]['good_match']}")
-    st.write(f"相性の悪い星座: {fortune_data[zodiac]['bad_match']}")
-else:
-    st.write("不正な日付です。再度入力してください。")
+# 星座とその運勢、相性
+zodiac_info = {
+    "牡羊座": {
+        "fortune": "今日は積極的に行動することが吉。新しい挑戦が運気を引き寄せます。",
+        "good_match": ["獅子座", "射手座"],
+        "bad_match": ["蟹座", "山羊座"]
+    },
+    "牡牛座": {
+        "fortune": "安定が大事な一日。無理せず、穏やかな時間を過ごすと良いでしょう。",
+        "good_match": ["乙女座", "山羊座"],
+        "bad_match": ["獅子座", "水瓶座"]
+    },
+    "双子座": {
+        "fortune": "社交的な一日。新しい人との出会いが期待できそうです。",
+        "good_match": ["天秤座", "水瓶座"],
+        "bad_match": ["魚座", "乙女座"]
+    },
+    "蟹座": {
+        "fortune": "感情に振り回されがち。冷静に判断することが重要です。",
+        "good_match": ["蠍座", "魚座"],
+        "bad_match": ["牡羊座", "天秤座"]
+    },
+    "獅子座": {
+        "fortune": "自信を持って行動することで運気が向上します。",
+        "good_match": ["牡羊座", "射手座"],
+        "bad_match": ["牡牛座", "蠍座"]
+    },
+    "乙女座": {
+        "fortune": "細かい作業がうまく進みます。集中力が必要な一日。",
+        "good_match": ["牡牛座", "山羊座"],
+        "bad_match": ["双子座", "射手座"]
+    },
+    "天秤座": {
+        "fortune": "バランスを大切にすることが運を引き寄せます。人間関係が重要。",
+        "good_match": ["双子座", "水瓶座"],
+        "bad_match": ["牡羊座", "蟹座"]
+    },
+    "蠍座": {
+        "fortune": "直感が冴える一日。大切な決断をするには良いタイミングです。",
+        "good_match": ["蟹座", "魚座"],
+        "bad_match": ["獅子座", "双子座"]
+    },
+    "射手座": {
+        "fortune": "冒険心が強くなる日。新しいことを始めるには良い時期です。",
+        "good_match": ["牡羊座", "獅子座"],
+        "bad_match": ["乙女座", "魚座"]
+    },
+    "山羊座": {
+        "fortune": "地道な努力が実を結ぶ日。慎重に行動することが吉。",
+        "good_match": ["牡牛座", "乙女座"],
+        "bad_match": ["蟹座", "天秤座"]
+    },
+    "水瓶座": {
+        "fortune": "独創的な考えが光る日。人と違う視点で物事を捉えることが大切です。",
+        "good_match": ["双子座", "天秤座"],
+        "bad_match": ["牡牛座", "蠍座"]
+    },
+    "魚座": {
+        "fortune": "感受性が豊かな一日
