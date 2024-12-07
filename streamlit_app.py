@@ -1,99 +1,133 @@
 import streamlit as st
+from datetime import datetime
 
-# 星座の運勢データ（サンプル）
-zodiac_info = {
-    'おひつじざ': {
-        'lucky_item': '赤いペン',
-        'lucky_color': '赤',
-        'good_match': ['ししざ', 'いてざ'],
-        'bad_match': ['おうしざ', 'やぎざ'],
+# 星座に関する情報を定義
+horoscopes = {
+    "おひつじ座": {
+        "dates": [(3, 21), (4, 19)],
+        "fortune": "今日の運勢は非常に良好です。新しい挑戦に最適な日！",
+        "lucky_item": "赤い財布",
+        "lucky_color": "赤",
+        "good_match": ["しし座", "いて座"],
+        "bad_match": ["おうし座", "やぎ座"]
     },
-    'おうしざ': {
-        'lucky_item': '緑色の財布',
-        'lucky_color': '緑',
-        'good_match': ['おとめざ', 'かにざ'],
-        'bad_match': ['おひつじざ', 'みずがめざ'],
+    "おうし座": {
+        "dates": [(4, 20), (5, 20)],
+        "fortune": "今日は冷静に物事を考え、慎重に行動することが大切です。",
+        "lucky_item": "緑の花",
+        "lucky_color": "緑",
+        "good_match": ["おとめ座", "やぎ座"],
+        "bad_match": ["おひつじ座", "みずがめ座"]
     },
-    'ふたござ': {
-        'lucky_item': '本',
-        'lucky_color': '黄色',
-        'good_match': ['てんびんざ', 'みずがめざ'],
-        'bad_match': ['おとめざ', 'うおざ'],
+    "ふたご座": {
+        "dates": [(5, 21), (6, 20)],
+        "fortune": "今日はコミュニケーションが活発になり、新しい友達と出会えるかもしれません。",
+        "lucky_item": "黄色い本",
+        "lucky_color": "黄色",
+        "good_match": ["てんびん座", "みずがめ座"],
+        "bad_match": ["おうし座", "おとめ座"]
     },
-    'かにざ': {
-        'lucky_item': '白い花',
-        'lucky_color': '白',
-        'good_match': ['おうしざ', 'おとめざ'],
-        'bad_match': ['おひつじざ', 'てんびんざ'],
+    "かに座": {
+        "dates": [(6, 21), (7, 22)],
+        "fortune": "感情が高まりやすい一日。心を落ち着けて過ごしましょう。",
+        "lucky_item": "シルバーのアクセサリー",
+        "lucky_color": "シルバー",
+        "good_match": ["おとめ座", "さそり座"],
+        "bad_match": ["おひつじ座", "てんびん座"]
     },
-    'ししざ': {
-        'lucky_item': '金のネックレス',
-        'lucky_color': '金色',
-        'good_match': ['おひつじざ', 'いてざ'],
-        'bad_match': ['おうしざ', 'さそりざ'],
+    "しし座": {
+        "dates": [(7, 23), (8, 22)],
+        "fortune": "自信を持って行動することで、良い結果を得ることができるでしょう。",
+        "lucky_item": "金色のリング",
+        "lucky_color": "金",
+        "good_match": ["おひつじ座", "いて座"],
+        "bad_match": ["おうし座", "おとめ座"]
     },
-    'おとめざ': {
-        'lucky_item': 'メモ帳',
-        'lucky_color': '青',
-        'good_match': ['おうしざ', 'かにざ'],
-        'bad_match': ['ふたござ', 'ししざ'],
+    "おとめ座": {
+        "dates": [(8, 23), (9, 22)],
+        "fortune": "細かいことに気を配ることで、予期しないラッキーが訪れる日。",
+        "lucky_item": "青いペン",
+        "lucky_color": "青",
+        "good_match": ["おうし座", "かに座"],
+        "bad_match": ["ふたご座", "さそり座"]
     },
-    'てんびんざ': {
-        'lucky_item': '美しい花瓶',
-        'lucky_color': 'ピンク',
-        'good_match': ['ふたござ', 'みずがめざ'],
-        'bad_match': ['かにざ', 'さそりざ'],
+    "てんびん座": {
+        "dates": [(9, 23), (10, 22)],
+        "fortune": "バランスを取ることが鍵。人との調和を大切に。",
+        "lucky_item": "ピンクのバッグ",
+        "lucky_color": "ピンク",
+        "good_match": ["ふたご座", "みずがめ座"],
+        "bad_match": ["おうし座", "おとめ座"]
     },
-    'さそりざ': {
-        'lucky_item': '黒い財布',
-        'lucky_color': '黒',
-        'good_match': ['おひつじざ', 'おとめざ'],
-        'bad_match': ['ししざ', 'てんびんざ'],
+    "さそり座": {
+        "dates": [(10, 23), (11, 21)],
+        "fortune": "感情的になりすぎず冷静な判断が求められる日。",
+        "lucky_item": "黒い靴",
+        "lucky_color": "黒",
+        "good_match": ["かに座", "おとめ座"],
+        "bad_match": ["しし座", "おひつじ座"]
     },
-    'いてざ': {
-        'lucky_item': '遠足用のバッグ',
-        'lucky_color': '青',
-        'good_match': ['おひつじざ', 'ししざ'],
-        'bad_match': ['おうしざ', 'うおざ'],
+    "いて座": {
+        "dates": [(11, 22), (12, 21)],
+        "fortune": "冒険心が芽生える日。新しいことにチャレンジしてみましょう。",
+        "lucky_item": "紫のネクタイ",
+        "lucky_color": "紫",
+        "good_match": ["おひつじ座", "しし座"],
+        "bad_match": ["おうし座", "さそり座"]
     },
-    'やぎざ': {
-        'lucky_item': 'シルバーの時計',
-        'lucky_color': 'グレー',
-        'good_match': ['おうしざ', 'おとめざ'],
-        'bad_match': ['おひつじざ', 'ふたござ'],
+    "やぎ座": {
+        "dates": [(12, 22), (1, 19)],
+        "fortune": "堅実な行動が吉。焦らず計画的に進めることが大切。",
+        "lucky_item": "黒い手帳",
+        "lucky_color": "黒",
+        "good_match": ["おうし座", "おとめ座"],
+        "bad_match": ["おひつじ座", "ふたご座"]
     },
-    'みずがめざ': {
-        'lucky_item': '金のペン',
-        'lucky_color': '水色',
-        'good_match': ['ふたござ', 'てんびんざ'],
-        'bad_match': ['おうしざ', 'さそりざ'],
+    "みずがめ座": {
+        "dates": [(1, 20), (2, 18)],
+        "fortune": "独創的なアイデアが浮かびやすい日。柔軟な思考を活かしましょう。",
+        "lucky_item": "銀のペンダント",
+        "lucky_color": "銀",
+        "good_match": ["ふたご座", "てんびん座"],
+        "bad_match": ["おうし座", "さそり座"]
     },
-    'うおざ': {
-        'lucky_item': '柔らかい毛布',
-        'lucky_color': 'ピンク',
-        'good_match': ['かにざ', 'おとめざ'],
-        'bad_match': ['ふたござ', 'いてざ'],
-    },
+    "うお座": {
+        "dates": [(2, 19), (3, 20)],
+        "fortune": "直感が冴える一日。自分の感覚に従って行動すると吉。",
+        "lucky_item": "白い花束",
+        "lucky_color": "白",
+        "good_match": ["かに座", "さそり座"],
+        "bad_match": ["しし座", "おひつじ座"]
+    }
 }
 
-# Streamlitアプリのタイトル
-st.title('星座占いアプリ')
+# 生年月日から星座を取得する関数
+def get_zodiac_sign(birthdate):
+    month = birthdate.month
+    day = birthdate.day
 
-# ユーザーに星座を選んでもらう
-zodiac = st.selectbox('あなたの星座を選んでください（ひらがなで入力）', [
-    'おひつじざ', 'おうしざ', 'ふたござ', 'かにざ', 'ししざ', 'おとめざ', 'てんびんざ', 'さそりざ', 'いてざ', 'やぎざ', 'みずがめざ', 'うおざ'])
+    for sign, info in horoscopes.items():
+        start_date, end_date = info["dates"]
+        if (month == start_date[0] and day >= start_date[1]) or (month == end_date[0] and day <= end_date[1]):
+            return sign
+    return None
 
-# 選んだ星座の運勢情報を表示
-info = zodiac_info[zodiac]
-st.header(f'{zodiac} の運勢')
+# Streamlit アプリケーションのUI
+st.title("星座占いアプリ")
 
-# ラッキーアイテムとラッキーカラー
-st.subheader('ラッキーアイテムとラッキーカラー')
-st.write(f'ラッキーアイテム: {info["lucky_item"]}')
-st.write(f'ラッキーカラー: {info["lucky_color"]}')
+# 生年月日の入力
+birthdate = st.date_input("生年月日を入力してください")
+if birthdate:
+    # 星座を取得
+    zodiac = get_zodiac_sign(birthdate)
+    if zodiac:
+        st.write(f"あなたの星座は「{zodiac}」です。")
 
-# 相性のいい星座と相性の悪い星座
-st.subheader('相性のいい星座と相性の悪い星座')
-st.write(f'相性のいい星座: {", ".join(info["good_match"])}')
-st.write(f'相性の悪い星座: {", ".join(info["bad_match"])}')
-
+        # 星座の運勢、ラッキーアイテム、ラッキーカラー、相性を表示
+        st.write(f"運勢: {horoscopes[zodiac]['fortune']}")
+        st.write(f"ラッキーアイテム: {horoscopes[zodiac]['lucky_item']}")
+        st.write(f"ラッキーカラー: {horoscopes[zodiac]['lucky_color']}")
+        st.write(f"相性のいい星座: {', '.join(horoscopes[zodiac]['good_match'])}")
+        st.write(f"相性の悪い星座: {', '.join(horoscopes[zodiac]['bad_match'])}")
+    else:
+        st.write("星座を計算できませんでした。")
